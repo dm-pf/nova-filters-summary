@@ -148,6 +148,15 @@ export default {
                         return false
                     }
 
+                    const isRangeValueEmpty =
+                        typeof filter.currentValue === 'object' &&
+                        Object.values(filter.currentValue).every(function (value) {
+                            return value === null;
+                        });
+                    if (isRangeValueEmpty) {
+                        return false;
+                    }
+
                     return !! filter.currentValue
                 })
 
@@ -186,6 +195,15 @@ export default {
                         filter.summary = enabledValues.length ? enabledValues.join(', ') : '<em>none</em>'
                     }
 
+                    else if (filter.component === 'filter-date-field') {
+                        const enabledValues = [
+                            filter.currentValue[0] ? filter.currentValue[0] : '—',
+                            filter.currentValue[1] ? filter.currentValue[1] : '—',
+                        ];
+
+                        filter.summary = enabledValues.join(' - ')
+                    }
+
                     else filter.summary = filter.currentValue || 'N/A'
 
                     return filter
@@ -205,6 +223,11 @@ export default {
                 })
 
                 clearValue = filter.currentValue
+            }
+
+            if (filter.component === 'filter-date-field') {
+                clearValue = [null, null]
+                filter.currentValue = [null, null]
             }
 
             // Reset the filter's value.
@@ -236,6 +259,8 @@ export default {
             }
 
             Nova.$emit('query-string-changed', searchParams)
+            // Force resource filters to re-render after filter delete
+            Nova.$emit('filter-reset')
         },
     },
 

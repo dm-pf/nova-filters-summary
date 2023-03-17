@@ -1,5 +1,5 @@
 {
-    "name": "degecko/nova-filters-summary",
+    "name": "dm-pf/nova-filters-summary",
     "description": "A Laravel Nova card which displays a summary of the active filters of a resource or lens.",
     "keywords": [
         "laravel",
@@ -20,7 +20,7 @@
         }
     ],
     "require": {
-        "php": ">=7.1.0",
+        "php": ">=8.1.0",
         "laravel/nova": "^4.0"
     },
     "autoload": {
